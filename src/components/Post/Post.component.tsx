@@ -1,35 +1,36 @@
 import { Avatar } from "../Avatar/Avatar.component";
 import { Comment } from "../Comment/Comment.component";
 import styles from "./Post.module.css";
+import { PostProps } from "./Post.types";
 
-export const Post = () => {
+export const Post: React.FC<PostProps> = ({ author, publishedAt, content}) => {
   return (
     <article className={styles.post}>
       <header className={styles.postHeader}>
         <div className={styles.author}>
           <Avatar
             hasBorder
-            source="https://github.com/thayannesandrade.png"
+            source={author.avatar_url}
           />
           <div className={styles.authorInfo}>
-            <strong>Júlio César</strong>
-            <span> Web Developer </span>
+            <strong>{author.name}</strong>
+            <span>{author.role}</span>
           </div>
         </div>
 
-        <time title="25 de Setembro às 07:22" dateTime="2023-09-25 07:22:25">
+        <time title={publishedAt.toDateString()} dateTime={publishedAt.toISOString()}>
           {" "}
-          Publicado há 1h{" "}
+          Publicado há {publishedAt.toLocaleString()}
         </time>
       </header>
 
       <div className={styles.content}>
-        <p> Fala rapaziada! </p>
-        <p>
-          {" "}
-          Acabei de subir mais um projetinho pro meu portifolio. É um projeto
-          que eu fiz no Ignite, um módulo de react oferecido pela Rocketseat.
-        </p>
+        <h2>
+          {content.title}
+        </h2>
+        {content.paragraphs.map((paragraph, index) => (
+          <p key={index}>{paragraph}</p>
+        ))}
         <p>
         <a href="#">julio.com/codefeed</a>
         </p>
