@@ -4,21 +4,39 @@ import { Post } from "./components/Post/Post.component";
 
 import "./global.css";
 import styles from "./App.module.css";
+import { PostProps } from "./components/Post/Post.types";
 
 export const App = () => {
-  const postAuthor = {
-    avatar_url: "https://github.com/julio-cesar96.png",
-    name: "Júlio César",
-    role: "Front End Developer"
-  }
-  const postPublishedAt = new Date("2023-09-25T07:22:25Z");
-  const content = {
-    title: "Projeto novo",
-    paragraphs: [
-      "Fala rapaziada! Acabei de subir mais um projetinho pro meu portifolio.",
-      "É um projeto que eu fiz no Ignite, um módulo de react oferecido pela Rocketseat. #novoprojeto #ignite #rocketseat"
-    ]
-  }
+  const posts: PostProps[] = [
+    {
+      id: 1,
+      author: {
+        avatar_url: "https://github.com/julio-cesar96.png",
+        name: "Júlio César",
+        role: "Front End Developer at @Strada"
+      },
+      content: [
+          { type: 'paragraph', content: 'E ai pessoal'},
+          { type: 'paragraph', content: 'Projetinho novo no meu portifa'},
+          { type: 'link', content: 'jane.design/doctorcare' },
+      ],
+        publishedAt: new Date('2024-10-22 12:00:00'),
+    },
+    {
+      id: 2,
+      author: {
+        avatar_url: "https://github.com/thayannesandrade.png",
+        name: "Thayanne Andrade",
+        role: "Front End Developer"
+      },
+      content: [
+          { type: 'paragraph', content: 'E ai pessoal'},
+          { type: 'paragraph', content: 'Projetinho novo no meu portifa'},
+          { type: 'link', content: 'jane.design/doctorcare' },
+      ],
+        publishedAt: new Date('2024-10-22 12:00:00'),
+    }
+  ]
   return (
     <>
       <Header />
@@ -26,12 +44,14 @@ export const App = () => {
       <div className={styles.wrapper}>
         <Sidebar />
         <main>
-          {" "}
-          <Post author={postAuthor} publishedAt={postPublishedAt} content={{
-            title: content.title,
-            paragraphs: content.paragraphs
-          }}
-          />
+          {posts.map((post) => (
+            <Post
+              key={post.id}
+              author={post.author}
+              publishedAt={post.publishedAt}
+              content={post.content}
+            />
+          ))}
         </main>
       </div>
     </>
