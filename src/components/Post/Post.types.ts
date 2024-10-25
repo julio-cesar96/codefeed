@@ -5,11 +5,12 @@ export interface Author {
 }
 
 export interface Content {
+    id: number
     type: 'paragraph' | 'link';
     content: string;
 }
 export interface PostProps {
-    id?: number
+    id: number
     author: Author;
     publishedAt: Date;
     content: Content[];

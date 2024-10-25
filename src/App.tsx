@@ -16,9 +16,9 @@ export const App = () => {
         role: "Front End Developer at @Strada"
       },
       content: [
-          { type: 'paragraph', content: 'E ai pessoal'},
-          { type: 'paragraph', content: 'Projetinho novo no meu portifa'},
-          { type: 'link', content: 'jane.design/doctorcare' },
+          { id: 1, type: 'paragraph', content: 'E ai pessoal'},
+          { id: 2, type: 'paragraph', content: 'Projetinho novo no meu portifa'},
+          { id: 3, type: 'link', content: 'jane.design/doctorcare' },
       ],
         publishedAt: new Date('2024-10-22 12:00:00'),
     },
@@ -30,9 +30,9 @@ export const App = () => {
         role: "Front End Developer"
       },
       content: [
-          { type: 'paragraph', content: 'E ai pessoal'},
-          { type: 'paragraph', content: 'Projetinho novo no meu portifa'},
-          { type: 'link', content: 'jane.design/doctorcare' },
+          { id: 1, type: 'paragraph', content: 'E ai pessoal'},
+          { id: 2, type: 'paragraph', content: 'Projetinho novo no meu portifa'},
+          { id: 3, type: 'link', content: 'jane.design/doctorcare' },
       ],
         publishedAt: new Date('2024-10-22 12:00:00'),
     }
@@ -47,6 +47,7 @@ export const App = () => {
           {posts.map((post) => (
             <Post
               key={post.id}
+              id={post.id}
               author={post.author}
               publishedAt={post.publishedAt}
               content={post.content}

@@ -6,15 +6,16 @@ import { Comment } from "../Comment/Comment.component";
 import styles from "./Post.module.css";
 import { Content, PostProps } from "./Post.types";
 import { useState } from 'react';
-
+import { Comment as CommentType } from '../Comment/Comment.types';
 
 export const Post: React.FC<PostProps> = ({ author, publishedAt, content }) => {
 
-  const [comments, setComments] = useState([
-    'Baita projeto, boa!'
+  const [comments, setComments] = useState<CommentType[]>([
+    { id: 1, content: 'Baite projeto, boa!' }
   ]);
 
   const [newCommentText, setNewCommentText] = useState('');
+  const [nextId, setNextId] = useState(2);
 
   const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'ás' HH:mm'h'", {
     locale: ptBR,
@@ -25,16 +26,26 @@ export const Post: React.FC<PostProps> = ({ author, publishedAt, content }) => {
     addSuffix: true
   })
 
-  function handleCreateNewComment() {
-    event?.preventDefault();
+  function handleCreateNewComment(event: React.FormEvent) {
+    event.preventDefault();
 
-    setComments([...comments, newCommentText]);
+    const newComment: CommentType = {
+      id: nextId,
+      content: newCommentText
+    };
+
+    setComments([...comments, newComment]);
+    setNextId(nextId + 1);
     setNewCommentText('');
     
   }
 
   function handleNewCommentChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
     setNewCommentText(event.target.value);
+  }
+
+  function deleteComment(idToDelete: number) {
+    setComments(prevComponents => prevComponents.filter(comment => comment.id !== idToDelete));
   }
 
 
@@ -58,12 +69,12 @@ export const Post: React.FC<PostProps> = ({ author, publishedAt, content }) => {
       </header>
 
       <div className={styles.content}>
-        {content.map((item: Content, index) => {
+        {content.map((item: Content) => {
           if (item.type === 'paragraph') {
-            return <p key={index}>{item.content}</p>
+            return <p key={item.id}>{item.content}</p>
           } else if (item.type === 'link') {
             return (
-            <p key={index}>
+            <p key={item.id}>
               <a href="#">{item.content}</a>
             </p>
             );
@@ -87,8 +98,8 @@ export const Post: React.FC<PostProps> = ({ author, publishedAt, content }) => {
       </form>
 
       <div className={styles.commentList}>
-        {comments.map(comment => {
-          return <Comment content={comment} />
+        {comments.map((comment) => {
+          return <Comment key={comment.id} comment={comment} deleteComment={deleteComment}/>
         })}
       </div>
     </article>
